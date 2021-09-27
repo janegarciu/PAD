@@ -1,13 +1,12 @@
 Flight Booking System
 ---------------------
 
-###**Checkpoint1**
 
-* [List of services](#LIST OF SERVICES)
-* [Description of outbound API endpoints](#ENDPOINTS OVERVIEW)
-* [Description of inbound API endpoints](#ENDPOINTS OVERVIEW)
-* [List of technologies to be used](#LIST OF TECHNOLOGIES)
-* [Diagram reflecting the architecture of the system](#ARCHITECTURE DIAGRAM)
+* [List of services](#LIST-OF-SERVICES)
+* [Description of outbound API endpoints](#ENDPOINT-SOVERVIEW)
+* [Description of inbound API endpoints](#ENDPOINT-SOVERVIEW)
+* [List of technologies to be used](#LIST-OF-TECHNOLOGIES)
+* [Diagram reflecting the architecture of the system](#ARCHITECTURE-DIAGRAM)
 
 
 LIST OF SERVICES

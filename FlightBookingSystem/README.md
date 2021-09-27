@@ -1,7 +1,9 @@
 Flight Booking System
----------------------
+
+---------
 
 ###Checkpoint1
+
 
 * [List of services](#LIST OF SERVICES)
 * [Description of outbound API endpoints](#ENDPOINTS OVERVIEW)

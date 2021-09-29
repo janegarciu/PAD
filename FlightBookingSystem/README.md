@@ -2,14 +2,14 @@ Flight Booking System
 ---------------------
 
 
-* [List of services](#LIST-OF-SERVICES)
-* [Description of outbound API endpoints](#ENDPOINT-SOVERVIEW)
-* [Description of inbound API endpoints](#ENDPOINT-SOVERVIEW)
-* [List of technologies to be used](#LIST-OF-TECHNOLOGIES)
-* [Diagram reflecting the architecture of the system](#ARCHITECTURE-DIAGRAM)
+* [List of services](#list-of-services)
+* [Description of outbound API endpoints](#endpoints-overview)
+* [Description of inbound API endpoints](#endpoints-overview)
+* [List of technologies to be used](#list-of-technologies)
+* [Diagram reflecting the architecture of the system](#architecture-diagram)
 
 
-LIST OF SERVICES
+###List Of Services
 
 --------
 - account-service
@@ -22,40 +22,30 @@ LIST OF SERVICES
 - billing-service
 - caching-service(not sure if it should be as a separate service)
 
-ENDPOINTS OVERVIEW
+###Endpoints Overview
 
 (As I have not understood properly the concept of outbound
 and inbound APIs I have decided to describe them in one group for now)
 
 ---------
 
-**_Account service_**
-+ This service will be calling User service
-+ POST `account-service/users/sign-up/ + params` 
-+ POST `account-service/users/sign-in/ + params` 
+**_Auth service_**
++ A part of API Gateway.
 
 **_User service_**
 + This service will handle connection to the Auth service
 when a new user signs up.
-+ GET `user-service/user-profiles/id` : get user-profile by id
-+ GET `user-service/user-profiles/username` : get user-profile by username
++ GET `user-service/user-profiles/get-user` : get user-profile by parameter - id or username
 + POST `user-service/user-profiles/user` : create new user
 
-**_Auth service_**
-+ Will support communication with User service. As I assume for now, there will be no endpoint.
-This will be handled by Spring Security Framework.
-
 **_Ticket service_**
-+ GET `ticket-service/tickets/username` : will return tickets by username
-+ GET `ticket-service/tickets/user-id` : will return tickets by user-id
-+ GET `ticket-service/tickets/id` : will return ticket by ticket id
++ GET `ticket-service/tickets/get-ticket` : will return ticket by ticket id, username or user-id
 + Possible variations of parameters to be added
 
 **_Flight service_**
-+ GET `flight-service/flights/id` : get one flight by id / info
-+ GET `flight-service/flights + params` : retrieve all the flights that matches the value of query param
-+ GET `flight-service/airports` : get a list of airports
-+ GET `flight-service/airports/{airport-name}` : list of flights from this airport
++ GET `flight-service/flights/get-flight` : get one flight by parameter - id / info
++ GET `flight-service/flights/get-flights` : retrieve all the flights that matches the value of query param
++ GET `flight-service/airports/get-airports` : get a list of airports + parameter to find by airport name
 + Search flight by name
 + Search flight by code
 
@@ -74,22 +64,29 @@ This will be handled by Spring Security Framework.
 + GET `billing-service/flights/{flight-id}/payment` : will pay for the flight specified
 + Make payment(handle payment errors: payment authorization timeout and invalid credit card info )
 
+**_Seat service_**
++ GET `seat-service/seats/get-seat` : get seat by parameter - id
++ GET `seat-service/seats/{plane-id}/all-seats` : will return all the seats for one plane
 
+**_Plane service_**
++ GET `plane-service/planes/get-plane` : get plane by id
++ POST `plane-service/planes/add-plane` : add plane
 **_Caching service_**
 + Will implement keep-alive connection for other services
 + Will handle multiple simultaneous connections
 
-**LIST OF TECHNOLOGIES**
+###List Of Technologies
 
 -------
+
 + JDK 11.0.10
 + Spring Boot
 + Spring Cloud
 + Spring Data
 + DBs which will be used, have not decided yet(Possibly PostgreSQL and MongoDB)
 
-**ARCHITECTURE DIAGRAM**
+###Architecture Diagram
 
 ------
 
- *_Will be added soon_*
+![Microservices Architectural Model](src/docs/MicroservicesDiagram.png)

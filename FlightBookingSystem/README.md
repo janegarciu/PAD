@@ -10,7 +10,7 @@ Flight Booking System
 
 
 
-###List Of Services
+### List Of Services
 
 --------
 - account-service
@@ -24,7 +24,7 @@ Flight Booking System
 - caching-service(not sure if it should be as a separate service)
 
 
-###Endpoints Overview
+### Endpoints Overview
 
 (As I have not understood properly the concept of outbound
 and inbound APIs I have decided to describe them in one group for now)
@@ -78,7 +78,7 @@ when a new user signs up.
 + Will handle multiple simultaneous connections
 
 
-###List Of Technologies
+### List Of Technologies
 
 -------
 
@@ -89,7 +89,7 @@ when a new user signs up.
 + DBs which will be used, have not decided yet(Possibly PostgreSQL and MongoDB)
 
 
-###Architecture Diagram
+### Architecture Diagram
 
 ------
 

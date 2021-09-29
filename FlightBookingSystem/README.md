@@ -22,7 +22,7 @@ Flight Booking System
 - gateway-service
 - booking-service
 - billing-service
-- caching-service(not sure if it should be as a separate service)
+- caching-service
 
 
 ### Endpoints Overview

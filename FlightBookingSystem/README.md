@@ -9,6 +9,7 @@ Flight Booking System
 * [Diagram reflecting the architecture of the system](#architecture-diagram)
 
 
+
 ###List Of Services
 
 --------
@@ -21,6 +22,7 @@ Flight Booking System
 - booking-service
 - billing-service
 - caching-service(not sure if it should be as a separate service)
+
 
 ###Endpoints Overview
 
@@ -75,6 +77,7 @@ when a new user signs up.
 + Will implement keep-alive connection for other services
 + Will handle multiple simultaneous connections
 
+
 ###List Of Technologies
 
 -------
@@ -84,6 +87,7 @@ when a new user signs up.
 + Spring Cloud
 + Spring Data
 + DBs which will be used, have not decided yet(Possibly PostgreSQL and MongoDB)
+
 
 ###Architecture Diagram
 

@@ -13,15 +13,16 @@ Flight Booking System
 ### List Of Services
 
 --------
-- account-service
-- user-service
 - auth-service
+- user-service
 - ticket-service
 - flight-service
+- plane-service
+- seat-service
 - gateway-service
 - booking-service
 - billing-service
-- caching-service(not sure if it should be as a separate service)
+- caching-service
 
 
 ### Endpoints Overview

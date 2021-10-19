@@ -1,0 +1,23 @@
+version: '3.7'
+
+services:
+  mysql:
+    image: mysql:latest
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: flightServiceDB
+      MYSQL_USER: jane.garciu
+      MYSQL_PASSWORD: password
+  mysql2:
+    image: mysql:latest
+    ports:
+      - "3307:3307"
+    environment:
+      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: flightServiceDB
+      MYSQL_USER: jane.garciu
+      MYSQL_PASSWORD: password

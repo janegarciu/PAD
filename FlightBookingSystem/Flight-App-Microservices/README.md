@@ -94,4 +94,4 @@ when a new user signs up.
 
 ------
 
-![Microservices Architectural Model](FlightBookingSystem/Flight-App-Microservices/docs/MicroservicesDiagram.png)
+![Microservices Architectural Model](docs/MicroservicesDiagram.png)

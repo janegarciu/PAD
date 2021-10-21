@@ -7,14 +7,14 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="demo" />
-        <module name="gateway" />
-        <module name="eureka-server" />
-        <module name="common" />
-        <module name="ticket-service" />
-        <module name="flight-service" />
-        <module name="scala-project" />
         <module name="cache-service" />
+        <module name="common" />
+        <module name="scala-project" />
+        <module name="demo" />
+        <module name="eureka-server" />
+        <module name="gateway" />
+        <module name="flight-service" />
+        <module name="ticket-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

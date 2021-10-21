@@ -7,7 +7,6 @@
       <module fileurl="file://$PROJECT_DIR$/eureka-server/eureka-server.iml" filepath="$PROJECT_DIR$/eureka-server/eureka-server.iml" />
       <module fileurl="file://$PROJECT_DIR$/flight-service/flight-service.iml" filepath="$PROJECT_DIR$/flight-service/flight-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/gateway/gateway.iml" filepath="$PROJECT_DIR$/gateway/gateway.iml" />
-      <module fileurl="file://$PROJECT_DIR$/scala-project/scala-project.iml" filepath="$PROJECT_DIR$/scala-project/scala-project.iml" />
       <module fileurl="file://$PROJECT_DIR$/ticket-service/ticket-service.iml" filepath="$PROJECT_DIR$/ticket-service/ticket-service.iml" />
     </modules>
   </component>

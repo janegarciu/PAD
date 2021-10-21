@@ -9,7 +9,6 @@
         <outputRelativeToContentRoot value="true" />
         <module name="cache-service" />
         <module name="common" />
-        <module name="scala-project" />
         <module name="demo" />
         <module name="eureka-server" />
         <module name="gateway" />

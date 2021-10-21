@@ -13,6 +13,7 @@
         <module name="common" />
         <module name="ticket-service" />
         <module name="flight-service" />
+        <module name="scala-project" />
         <module name="cache-service" />
       </profile>
     </annotationProcessing>
@@ -23,6 +24,7 @@
       <module name="eureka-server" target="1.8" />
       <module name="flight-service" target="1.8" />
       <module name="gateway" target="1.8" />
+      <module name="scala-project" target="1.8" />
       <module name="ticket-service" target="1.8" />
     </bytecodeTargetLevel>
   </component>
@@ -34,6 +36,7 @@
       <module name="eureka-server" options="-parameters" />
       <module name="flight-service" options="-parameters" />
       <module name="gateway" options="-parameters" />
+      <module name="scala-project" options="-parameters" />
       <module name="ticket-service" options="-parameters" />
     </option>
   </component>

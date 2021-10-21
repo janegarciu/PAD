@@ -14,10 +14,10 @@ services:
   mysql2:
     image: mysql:latest
     ports:
-      - "3307:3307"
+      - "3307:3306"
     environment:
       MYSQL_ROOT_USER: root
       MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: flightServiceDB
+      MYSQL_DATABASE: ticketServiceDB
       MYSQL_USER: jane.garciu
       MYSQL_PASSWORD: password

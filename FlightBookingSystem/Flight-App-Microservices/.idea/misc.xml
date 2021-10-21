@@ -9,6 +9,7 @@
         <option value="$PROJECT_DIR$/gateway/pom.xml" />
         <option value="$PROJECT_DIR$/common/pom.xml" />
         <option value="$PROJECT_DIR$/cache-service/pom.xml" />
+        <option value="$PROJECT_DIR$/scala-project/pom.xml" />
       </list>
     </option>
   </component>

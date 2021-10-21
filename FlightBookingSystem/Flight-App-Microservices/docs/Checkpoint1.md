@@ -5,6 +5,7 @@ Flight Booking System
 * [List of services](#list-of-services)
 * [Endpoints Overview](#endpoints-overview)
 * [Docker](#docker)
+* [Load Balancing](#load-balancing)
 * [List of technologies to be used](#list-of-technologies)
 * [Diagram reflecting the architecture of the system](#architecture-diagram)
 
@@ -98,6 +99,10 @@ The cache will live one hour and will be refreshed after the first request in ca
 ### Docker
 
 At the moment there are two databases for Ticket service and Flight service. In order to start the docker container go to FlightBookingSystem/Flight-App-Microservices/common/flightApp-docker and in the terminal run docker compose up.
+
+### Load Balancing
+
++ GET `flight-booking-app/get-ticket` : ticket find by id, this request will be load balanced
 
 ### List Of Technologies
 

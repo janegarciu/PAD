@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.{GetMapping, RequestMapping, Rest
 @RequestMapping(Array("/"))
 class ScalaController extends ApplicationContextAware {
 
-  @GetMapping(Array("/"))
+  @GetMapping(Array("/get-all-flights"))
   @Cacheable(value = Array("flightCache"))
-  def pohui(): util.List[FlightDto] = {
+  def cacheFlight(): util.List[FlightDto] = {
     val flightServiceFeign = context.getBean(classOf[FlightServiceFeign]);
     return flightServiceFeign.getFlights;
   }

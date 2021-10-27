@@ -2,10 +2,7 @@ package com.flightApp.controller;
 
 import com.flightApp.service.FlightService;
 import com.flightapp.dto.FlightDto;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,13 +16,13 @@ public class FlightController {
         this.flightService = flightService;
     }
 
-    @GetMapping("/")
+    @GetMapping("/get-all-flights")
     public List<FlightDto> findAll() {
         return flightService.findAll();
     }
 
-    @GetMapping("/{flightId}")
+    @GetMapping("/get-flight/{flightId}")
     public FlightDto getFlight(@PathVariable final Long flightId) {
-        return flightService.fingById(flightId);
+        return flightService.findById(flightId);
     }
 }

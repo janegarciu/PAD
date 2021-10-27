@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 @FeignClient(value = "flight-service")
 public interface FlightServiceClient {
 
-    @GetMapping("/{flightId}")
+    @GetMapping("/get-flight/{flightId}")
     public FlightDto getFlight(@PathVariable Long flightId);
 }

@@ -24,7 +24,7 @@ public class FlightService {
         return flightRepository.findAll().stream().map(flightDtoMapper::map).collect(Collectors.toList());
     }
 
-    public FlightDto fingById(final Long flightId) {
+    public FlightDto findById(final Long flightId) {
         final FlightEntity flightEntity = flightRepository.findById(flightId).orElseThrow(RuntimeException::new);
 
         return flightDtoMapper.map(flightEntity);

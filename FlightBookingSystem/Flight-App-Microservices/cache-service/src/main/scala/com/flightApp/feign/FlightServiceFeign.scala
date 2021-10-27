@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.{GetMapping, RequestMapping, Requ
 @FeignClient(name = "flight-service")
 trait FlightServiceFeign {
 
-  @GetMapping(Array("/"))
+  @GetMapping(Array("/get-all-flights"))
   def getFlights: util.List[FlightDto]
 }

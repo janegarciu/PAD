@@ -17,7 +17,7 @@ public class TicketController {
         this.ticketService = ticketService;
     }
 
-    @GetMapping("/")
+    @GetMapping("/get-ticket")
     public TicketDto getTickets(@RequestParam final Long ticketId) {
         return ticketService.findById(ticketId);
     }

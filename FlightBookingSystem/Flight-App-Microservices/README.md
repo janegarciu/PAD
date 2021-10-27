@@ -57,18 +57,18 @@ Stores certain requests responses into in-memory database to not call a certain 
 
 **_Outbound_**
 
-+ GET `flight-booking-app/get-ticket` : will return ticket by ticket id, username or user-id
++ GET `flight-booking-app/tickets/get-ticket` : will return ticket by ticket id, username or user-id
 
 **_Inbound_**
 
 + GET `flight-service/get-flight` : will get flight info by flight id to show it in the ticket info
++ GET `flight-service/get-all-flights` : retrieve all the flights that matches the value of query param
 
 - flight-service
 
 **_Outbound_**
 
 + GET `flight-booking-app/flights/get-flight` : get one flight by parameter - id / info
-+ GET `flight-booking-app/flights/get-all-flights` : retrieve all the flights that matches the value of query param
 + GET `flight-booking-app/airports/get-airports` : get a list of airports + parameter to find by airport name
 + POST `flight-booking-app/flights/create-flight` : will create a new flight in the system. Will be restricted only for admin users
 
@@ -93,9 +93,9 @@ Will handle only inbound requests from Booking service:
 
 - cache-service
 
-**_Inbound_**
+**_Outbound_**
 
-+ GET `flight-booking-app/flights/get-all-flights` : the reason why we need to cache all flights because they don't change so often and it is frequently called.
++ GET `flight-booking-app/cache/get-all-flights` : the reason why we need to cache all flights because they don't change so often and it is frequently called.
   The cache will live one hour and will be refreshed after the first request in case of adding of new flights
 
 ### Docker

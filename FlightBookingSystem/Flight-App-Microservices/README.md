@@ -13,16 +13,19 @@ Flight Booking System
 
 --------
 
-- auth-server
+- auth-service
 
 Takes care of user authentication into the system, is a part of API-gateway
+- user-service
+
+Saves all authenticated users in the database
 - ticket-service
 
 Ticket service returns all available information on a specified ticket id/number stored in the database
 - flight-service
 
 Contains all the information on available flights
-- gateway-server
+- gateway-service
 
 Filters all the requests sent by the user and points them to the right service to return the information. Also takes care of authorization/authentication. Hides all the services internal services from user
 - eureka-server
@@ -34,7 +37,7 @@ Allows user to book any flight to create ticket and add it into the database of 
 - billing-service
 
 Takes cer of user to have a bill to pay for his booking
-- cache-service
+- caching-service
 
 Stores certain requests responses into in-memory database to not call a certain service twice.
 
@@ -43,32 +46,31 @@ Stores certain requests responses into in-memory database to not call a certain 
 
 --------
 
-- auth-server
+- user-service
 
 **_Outbound_**:
 
-+ POST `flight-booking-app/authorization/signUp/` : sign up a new user with user email and password
-+ POST `flight-booking-app/authorization/confirmUser/` : confirm user email with user email and confirmation code
-+ GET `flight-booking-app/authorization/login/` : login a new user with email and password
++ GET `flight-booking-app/get-user` : get user-profile by parameter - id or username
++ POST `flight-booking-app/create-user` : create new user
 
 - ticket-service
 
 **_Outbound_**
 
-+ GET `flight-booking-app/tickets/get-ticket/` : will return ticket by ticket id, username or user-id
++ GET `flight-booking-app/tickets/get-ticket` : will return ticket by ticket id, username or user-id
 
 **_Inbound_**
 
-+ GET `flight-service/get-flight/` : will get flight info by flight id to show it in the ticket info
++ GET `flight-service/get-flight` : will get flight info by flight id to show it in the ticket info
++ GET `flight-service/get-all-flights` : retrieve all the flights that matches the value of query param
 
 - flight-service
 
 **_Outbound_**
 
-+ GET `flight-booking-app/flights/get-all-flights` : get all available flights 
-+ GET `flight-booking-app/flights/get-flight/` : get one flight by parameter - id / info(not yet implemented for outbound)
-+ GET `flight-booking-app/airports/get-airports` : get a list of airports + parameter to find by airport name(not yet implemented for outbound)
-+ POST `flight-booking-app/flights/create-flight` : will create a new flight in the system. Will be restricted only for admin users(not yet implemented for outbound)
++ GET `flight-booking-app/flights/get-flight` : get one flight by parameter - id / info
++ GET `flight-booking-app/airports/get-airports` : get a list of airports + parameter to find by airport name
++ POST `flight-booking-app/flights/create-flight` : will create a new flight in the system. Will be restricted only for admin users
 
 **_Inbound_**
 
@@ -100,9 +102,7 @@ Will handle only inbound requests from Booking service:
 
 --------
 
-At the moment there are two databases for Ticket service and Flight service.
-
-In order to start the docker container go to FlightBookingSystem/Flight-App-Microservices/common/flightApp-docker and in the terminal run docker compose up.
+At the moment there are two databases for Ticket service and Flight service. In order to start the docker container go to FlightBookingSystem/Flight-App-Microservices/common/flightApp-docker and in the terminal run docker compose up.
 
 ### List Of Technologies
 
@@ -110,12 +110,10 @@ In order to start the docker container go to FlightBookingSystem/Flight-App-Micr
 
 + JDK 1.8
 + Spring Boot
-+ Spring Cloud(gateway)
++ Spring Cloud
 + Spring Data
 + Scala(cache microservice)
-+ DB - MySQL for each service
-+ Nimbus jose jwt for jwt parsing
-+ AWS Cognito
++ DB - MySQL for each service except
 + Netflix Eureka Client/Server
 + For cache service used EhCache
 
@@ -123,4 +121,4 @@ In order to start the docker container go to FlightBookingSystem/Flight-App-Micr
 
 ------
 
-![Microservices Architectural Model](docs/MicroservicesDiagram.png)
+![Microservices Architectural Model](docs/lab1/MicroservicesDiagram.png)

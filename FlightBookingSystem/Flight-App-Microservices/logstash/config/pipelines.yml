@@ -1,0 +1,12 @@
+- pipeline.id: auth_pipeline
+  path.config: "/usr/share/logstash/pipeline/logstash-auth.conf"
+- pipeline.id: gateway_pipeline
+  path.config: "/usr/share/logstash/pipeline/logstash-gateway.conf"
+- pipeline.id: eureka_pipeline
+  path.config: "/usr/share/logstash/pipeline/logstash-eureka.conf"
+- pipeline.id: cache_pipeline
+  path.config: "/usr/share/logstash/pipeline/logstash-cache.conf"
+- pipeline.id: flight_pipeline
+  path.config: "/usr/share/logstash/pipeline/logstash-flight.conf"
+- pipeline.id: ticket_pipeline
+  path.config: "/usr/share/logstash/pipeline/logstash-ticket.conf"

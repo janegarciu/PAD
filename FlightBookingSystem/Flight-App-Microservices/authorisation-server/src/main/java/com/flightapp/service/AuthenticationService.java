@@ -2,11 +2,13 @@ package com.flightapp.service;
 
 import com.amazonaws.services.cognitoidp.AWSCognitoIdentityProvider;
 import com.amazonaws.services.cognitoidp.model.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 
 @Component
+@Slf4j
 public class AuthenticationService {
 
     public static final String CLIENT_ID = "72pdttek853n3venim8sn02noj";
@@ -27,9 +29,14 @@ public class AuthenticationService {
         request.setClientId(CLIENT_ID);
         request.setAuthParameters(authParameters);
 
+        log.info("Authenticating user with username {} and password {}", username, password);
+
         try {
-            return awsCognitoIdentityProvider.initiateAuth(request).getAuthenticationResult().getIdToken();
+            final var initiateAuthResult = awsCognitoIdentityProvider.initiateAuth(request);
+            final var authenticationResult = initiateAuthResult.getAuthenticationResult();
+            return authenticationResult.getIdToken();
         } catch (NotAuthorizedException exception) {
+            log.info("Unable to authenticate user with username {} because of {}",username,exception.getMessage());
             return "Invalid username or password";
         }
     }
@@ -56,7 +63,8 @@ public class AuthenticationService {
         confirmSignUpRequest.setUsername(username);
         confirmSignUpRequest.setConfirmationCode(confirmationCode);
         try {
-            awsCognitoIdentityProvider.confirmSignUp(confirmSignUpRequest);
+            final var confirmSignUpResult = awsCognitoIdentityProvider.confirmSignUp(confirmSignUpRequest);
+            System.out.println(confirmSignUpResult);
         } catch (CodeMismatchException | ExpiredCodeException exception) {
             return "Invalid code";
         }

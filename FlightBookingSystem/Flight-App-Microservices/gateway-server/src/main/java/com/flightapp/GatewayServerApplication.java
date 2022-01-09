@@ -7,7 +7,10 @@ import com.nimbusds.jose.proc.SecurityContext;
 import com.nimbusds.jose.util.DefaultResourceRetriever;
 import com.nimbusds.jwt.proc.ConfigurableJWTProcessor;
 import com.nimbusds.jwt.proc.DefaultJWTProcessor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
@@ -27,7 +30,8 @@ import static com.nimbusds.jose.JWSAlgorithm.RS256;
 @EnableEurekaClient
 @EnableDiscoveryClient
 @EnableFeignClients
-public class GatewayServerApplication {
+@Slf4j
+public class GatewayServerApplication implements ApplicationRunner {
 
     public static final String URL = "https://cognito-idp.us-east-2.amazonaws.com/us-east-2_WwyUqkmnf/.well-known/jwks.json";
 
@@ -63,5 +67,10 @@ public class GatewayServerApplication {
         final var keySelector = new JWSVerificationKeySelector<>(RS256, keySource);
         jwtProcessor.setJWSKeySelector(keySelector);
         return jwtProcessor;
+    }
+
+    @Override
+    public void run(final ApplicationArguments args) throws Exception {
+        log.info("Gateway server");
     }
 }

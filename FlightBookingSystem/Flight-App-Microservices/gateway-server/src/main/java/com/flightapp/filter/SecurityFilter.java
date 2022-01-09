@@ -30,7 +30,7 @@ public class SecurityFilter implements GatewayFilter {
         final var tokenHeaderValues = request.getHeaders().get(AUTHORIZATION);
 
         if (ObjectUtils.isEmpty(tokenHeaderValues)) {
-            return onError(exchange, HttpStatus.FORBIDDEN);
+            return onError(exchange, "empty auth", HttpStatus.FORBIDDEN);
         }
         try {
             final var token = tokenHeaderValues.stream().findFirst().orElse(StringUtils.EMPTY);
@@ -38,12 +38,12 @@ public class SecurityFilter implements GatewayFilter {
             return chain.filter(exchange);
 
         } catch (Exception e) {
-            return onError(exchange, HttpStatus.FORBIDDEN);
+            return onError(exchange, "invalid token", HttpStatus.FORBIDDEN);
         }
 
     }
 
-    private Mono<Void> onError(ServerWebExchange exchange, HttpStatus httpStatus) {
+    private Mono<Void> onError(ServerWebExchange exchange, String err, HttpStatus httpStatus) {
         ServerHttpResponse response = exchange.getResponse();
         response.setStatusCode(httpStatus);
         return response.setComplete();

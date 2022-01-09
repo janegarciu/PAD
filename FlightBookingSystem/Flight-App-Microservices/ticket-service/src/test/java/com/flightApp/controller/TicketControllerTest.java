@@ -14,7 +14,6 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class TicketControllerTest {
 
-    public static final long TICKET_ID = 1L;
     @InjectMocks
     private TicketController ticketController;
 
@@ -25,9 +24,9 @@ class TicketControllerTest {
     void getTickets() {
         final var expectedTicketDto = TicketDto.builder().build();
 
-        when(ticketService.findById(TICKET_ID)).thenReturn(expectedTicketDto);
+        when(ticketService.findById(1l)).thenReturn(expectedTicketDto);
 
-        final var actualTicketDto = ticketController.getTickets(TICKET_ID);
+        final var actualTicketDto = ticketController.getTickets(1L);
 
         assertEquals(actualTicketDto, expectedTicketDto);
     }

@@ -36,17 +36,12 @@ public class TicketService {
         final TicketDto ticketDto = ticketDtoMapper.map(ticketEntity);
         final var circuitBreaker = circuitBreakerFactory.create("circuitBreakerFactory");
         final var flight = circuitBreaker.run(() -> flightServiceClient.getFlight(ticketEntity.getFlightId()), e -> getDefaultFlight());
+        final FlightDto flights = circuitBreaker.run(() -> flightServiceClient.getFlight(ticketEntity.getFlightId()), e -> getDefaultFlight());
         ticketDto.setFlight(flight);
         return ticketDto;
     }
 
     private FlightDto getDefaultFlight() {
-        return FlightDto.builder()
-                .departureAirport("")
-                .departureCity("")
-                .flightNumber("")
-                .destinationCity("")
-                .destinationAirport("")
-                .build();
+        return FlightDto.builder().build();
     }
 }

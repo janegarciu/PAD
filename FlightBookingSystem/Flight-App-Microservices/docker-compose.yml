@@ -1,0 +1,159 @@
+version: '3'
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.16.0
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    restart: unless-stopped
+    environment:
+        - discovery.type=single-node
+        - node.name=elasticsearch
+        - cluster.name=es-docker-cluster
+        #- cluster.initial_master_nodes=elasticsearch
+        - bootstrap.memory_lock=true
+        - xpack.security.enabled=false
+        - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+        memlock:
+          soft: -1
+          hard: -1
+        nofile:
+          soft: 65536
+          hard: 65536
+      #    mem_limit: 500m
+      #    cap_add:
+      #      - IPC_LOCK
+    volumes:
+        - ./elasticsearch/data:/usr/share/elasticsearch/data:rw
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.16.0
+    restart: unless-stopped
+    command: logstash -f /usr/share/logstash/pipeline
+    volumes:
+        - ./logstash/config:/usr/share/logstash/config:ro
+        - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
+#        - type: bind
+#          source: ./logstash/config/logstash.yml
+#          target: /usr/share/logstash/config/logstash.yml
+#          read_only: true
+#        - type: bind
+#          source: ./logstash/config/pipelines.yml
+#          target: /usr/share/logstash/config/pipelines.yml
+#          read_only: true
+#        - type: bind
+#          source: ./logstash/pipeline
+#          target: /usr/share/logstash/pipeline
+#          read_only: true
+          #- type: bind
+          #source: ./logstash/data
+          #target: /var/lib/logstash/data
+    ports:
+        - "5000:5000"
+        - "5001:5001"
+        - "5002:5002"
+        - "5003:5003"
+        - "5004:5004"
+        - "5005:5005"
+        #- "8003:8003"
+        - "9600:9600"
+    depends_on:
+      - elasticsearch
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.16.0
+    ports:
+      - 5601:5601
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+    depends_on:
+      - elasticsearch
+  mysql:
+    image: mysql:latest
+    ports:
+      - "3308:3306"
+    environment:
+      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: flightServiceDB
+      MYSQL_USER: jane.garciu
+      MYSQL_PASSWORD: password
+  mysql2:
+      image: mysql:latest
+      ports:
+        - "3307:3306"
+      environment:
+        MYSQL_ROOT_USER: root
+        MYSQL_ROOT_PASSWORD: password
+        MYSQL_DATABASE: ticketServiceDB
+        MYSQL_USER: jane.garciu
+        MYSQL_PASSWORD: password
+  eureka-server:
+    image: eureka-server:latest
+    ports:
+      - "8761:8761"
+  gateway-server:
+    image: gateway-server:latest
+    restart: on-failure
+    depends_on:
+      - eureka-server
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_SERVER=http://eureka-server:8761/eureka
+    ports:
+      - "8762:8762"
+  authorisation-server:
+    image: authorisation-server:latest
+    restart: on-failure
+    depends_on:
+      - eureka-server
+      - gateway-server
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_SERVER=http://eureka-server:8761/eureka
+    expose:
+      - 8206
+  cache-service:
+    image: cache-service:latest
+    restart: on-failure
+    depends_on:
+      - eureka-server
+      - gateway-server
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_SERVER=http://eureka-server:8761/eureka
+    expose:
+      - 8202
+  flight-service:
+    image: flight-service:latest
+    depends_on:
+    - eureka-server
+    - gateway-server
+    - mysql
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_SERVER=http://eureka-server:8761/eureka
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/flightServiceDB
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=password
+    expose:
+      - 8200
+  ticket-service:
+    image: ticket-service:latest
+    depends_on:
+      - eureka-server
+      - gateway-server
+      - mysql2
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_SERVER=http://eureka-server:8761/eureka
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql2:3306/ticketServiceDB
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=password
+    expose:
+      - 8201
+networks:
+  elk:
+    driver: bridge
+volumes:
+  elasticsearch:

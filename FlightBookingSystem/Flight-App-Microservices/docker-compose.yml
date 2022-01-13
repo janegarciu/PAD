@@ -10,7 +10,6 @@ services:
         - discovery.type=single-node
         - node.name=elasticsearch
         - cluster.name=es-docker-cluster
-        #- cluster.initial_master_nodes=elasticsearch
         - bootstrap.memory_lock=true
         - xpack.security.enabled=false
         - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
@@ -21,33 +20,24 @@ services:
         nofile:
           soft: 65536
           hard: 65536
-      #    mem_limit: 500m
-      #    cap_add:
-      #      - IPC_LOCK
     volumes:
         - ./elasticsearch/data:/usr/share/elasticsearch/data:rw
   logstash:
     image: docker.elastic.co/logstash/logstash:7.16.0
     restart: unless-stopped
-    command: logstash -f /usr/share/logstash/pipeline
     volumes:
-        - ./logstash/config:/usr/share/logstash/config:ro
-        - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
-#        - type: bind
-#          source: ./logstash/config/logstash.yml
-#          target: /usr/share/logstash/config/logstash.yml
-#          read_only: true
-#        - type: bind
-#          source: ./logstash/config/pipelines.yml
-#          target: /usr/share/logstash/config/pipelines.yml
-#          read_only: true
-#        - type: bind
-#          source: ./logstash/pipeline
-#          target: /usr/share/logstash/pipeline
-#          read_only: true
-          #- type: bind
-          #source: ./logstash/data
-          #target: /var/lib/logstash/data
+        - type: bind
+          source: ./logstash/config/logstash.yml
+          target: /usr/share/logstash/config/logstash.yml
+          read_only: true
+        - type: bind
+          source: ./logstash/config/pipelines.yml
+          target: /usr/share/logstash/config/pipelines.yml
+          read_only: true
+        - type: bind
+          source: ./logstash/pipeline
+          target: /usr/share/logstash/pipeline
+          read_only: true
     ports:
         - "5000:5000"
         - "5001:5001"
@@ -55,14 +45,13 @@ services:
         - "5003:5003"
         - "5004:5004"
         - "5005:5005"
-        #- "8003:8003"
         - "9600:9600"
     depends_on:
       - elasticsearch
   kibana:
     image: docker.elastic.co/kibana/kibana:7.16.0
     ports:
-      - 5601:5601
+      - "5601:5601"
     environment:
       ELASTICSEARCH_URL: http://elasticsearch:9200
       ELASTICSEARCH_HOSTS: http://elasticsearch:9200
@@ -92,6 +81,10 @@ services:
     image: eureka-server:latest
     ports:
       - "8761:8761"
+    depends_on:
+      - logstash
+    links:
+      - logstash
   gateway-server:
     image: gateway-server:latest
     restart: on-failure

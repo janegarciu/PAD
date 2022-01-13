@@ -3,16 +3,16 @@
 
     <property scope="context" name="log.fileExtension" value="log"/>
     <property scope="context" name="log.directory" value="/logs"/>
-    <property scope="context" name="log.fileName" value="gateway-server"/>
+    <property scope="context" name="log.fileName" value="ticket-service"/>
+    <springProperty scope="context" name="logstash-server" source="spring.logstash.server"/>
+    <springProperty scope="context" name="logstash-port" source="spring.logstash.port"/>
 
-<!--    Console config-->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
             <pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}] [${HOSTNAME}] [%thread] %level %logger{36}@%method:%line - %msg%n</pattern>
         </layout>
     </appender>
 
-    <!--    File config-->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>${log.directory}/${log.fileName}.%d{yyyy-MM-dd}.${log.fileExtension}</fileNamePattern>
@@ -23,10 +23,11 @@
     </appender>
 
     <appender name="STASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>127.0.0.1:5004</destination>
+        <remoteHost>${logstash-server}</remoteHost>
+        <port>${logstash-port}</port>
         <!-- encoder is required -->
         <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
-        <keepAliveDuration>5 minutes</keepAliveDuration>
+<!--        <keepAliveDuration>5 minutes</keepAliveDuration>-->
     </appender>
 
     <logger name="org.hibernate" level="TRACE">

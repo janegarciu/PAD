@@ -15,7 +15,7 @@
 
     <cacheManagerPeerListenerFactory
             class="net.sf.ehcache.distribution.RMICacheManagerPeerListenerFactory"
-            properties="hostName=cache-service, port=40001,
+            properties="hostName=cache-service2, port=40001,
                         socketTimeoutMillis=2000"/>
 
     <cache name="flightCache"

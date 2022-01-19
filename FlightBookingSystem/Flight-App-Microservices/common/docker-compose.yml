@@ -1,0 +1,80 @@
+#version: '3'
+#services:
+#  postgres_master:
+#    container_name: flightservice_db
+#    image: postgres:13
+#    volumes:
+#      - ./data:/var/lib/postgresql/data
+#      - ./my-postgres.conf:/etc/postgresql/postgresql.conf
+#      - ./my-pg_hba.conf:/etc/postgresql/pg_hba.conf
+#
+#    environment:
+#      - POSTGRES_PASSWORD=password
+#      - POSTGRES_USER=jane.garciu
+#      - POSTGRES_DB=flightServiceDB
+#    ports:
+#      - 5432:5432
+#  postgres_slave:
+#    container_name: flightservice_db_slave
+#    image: postgres:13
+#    volumes:
+#    - ./data-slave:/var/lib/postgresql/data
+#    - ./my-postgres.conf:/etc/postgresql/postgresql.conf
+#    - ./my-pg_hba.conf:/etc/postgresql/pg_hba.conf
+#
+#    environment:
+#    - POSTGRES_PASSWORD=password
+#    - POSTGRES_USER=jane.garciu
+#    - POSTGRES_DB=flightServiceDB
+#    ports:
+#    -  5433:5433
+version: '2'
+
+services:
+  postgresql-master:
+    image: docker.io/bitnami/postgresql:11
+    ports:
+      - 5432:5432
+    volumes:
+      - 'postgresql_master_data:/bitnami/postgresql'
+    environment:
+      - POSTGRESQL_REPLICATION_MODE=master
+      - POSTGRESQL_REPLICATION_USER=repl_user
+      - POSTGRESQL_REPLICATION_PASSWORD=repl_password
+      - POSTGRESQL_USERNAME=postgres
+      - POSTGRESQL_PASSWORD=my_password
+      - POSTGRESQL_DATABASE=my_database
+      - POSTGRESQL_SYNCHRONOUS_COMMIT_MODE=on
+      - POSTGRESQL_NUM_SYNCHRONOUS_REPLICAS=1
+  postgresql-slave:
+    image: docker.io/bitnami/postgresql:11
+    ports:
+      - 5433:5432
+    depends_on:
+      - postgresql-master
+    environment:
+      - POSTGRESQL_REPLICATION_MODE=slave
+      - POSTGRESQL_REPLICATION_USER=repl_user
+      - POSTGRESQL_REPLICATION_PASSWORD=repl_password
+      - POSTGRESQL_MASTER_HOST=postgresql-master
+      - POSTGRESQL_PASSWORD=my_password
+      - POSTGRESQL_MASTER_PORT_NUMBER=5432
+      - ALLOW_EMPTY_PASSWORD=yes
+
+
+  postgresql-slave2:
+    image: 'bitnami/postgresql:latest'
+    ports:
+      - 5434:5432
+    depends_on:
+      - postgresql-master
+    environment:
+      - POSTGRESQL_REPLICATION_MODE=slave
+      - POSTGRESQL_REPLICATION_USER=repl_user
+      - POSTGRESQL_REPLICATION_PASSWORD=repl_password
+      - POSTGRESQL_MASTER_HOST=postgresql-master
+      - POSTGRESQL_MASTER_PORT_NUMBER=5432
+      - ALLOW_EMPTY_PASSWORD=yes
+volumes:
+  postgresql_master_data:
+    driver: local

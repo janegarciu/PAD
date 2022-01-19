@@ -3,6 +3,7 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/authorisation-server/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/authorisation-server/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cache-service2/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/common/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/eureka-server/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/flight-service/src/main/java" charset="UTF-8" />

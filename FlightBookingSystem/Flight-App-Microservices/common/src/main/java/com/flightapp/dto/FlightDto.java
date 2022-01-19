@@ -4,10 +4,12 @@ import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
 
+import java.io.Serializable;
+
 @Value
 @RequiredArgsConstructor
 @Builder
-public class FlightDto {
+public class FlightDto implements Serializable {
 
     private String flightNumber;
 

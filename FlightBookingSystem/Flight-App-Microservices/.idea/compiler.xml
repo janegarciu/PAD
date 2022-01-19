@@ -7,18 +7,20 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="eureka-server" />
-        <module name="common" />
-        <module name="authorisation-server" />
-        <module name="ticket-service" />
-        <module name="flight-service" />
         <module name="cache-service" />
+        <module name="common" />
+        <module name="cache-service2" />
         <module name="gateway-server" />
+        <module name="eureka-server" />
+        <module name="authorisation-server" />
+        <module name="flight-service" />
+        <module name="ticket-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="authorisation-server" target="11" />
       <module name="cache-service" target="11" />
+      <module name="cache-service2" target="11" />
       <module name="common" target="11" />
       <module name="eureka-server" target="11" />
       <module name="flight-service" target="11" />
@@ -32,6 +34,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="authorisation-server" options="-parameters" />
       <module name="cache-service" options="-parameters" />
+      <module name="cache-service2" options="-parameters" />
       <module name="common" options="-parameters" />
       <module name="eureka-server" options="-parameters" />
       <module name="flight-service" options="-parameters" />

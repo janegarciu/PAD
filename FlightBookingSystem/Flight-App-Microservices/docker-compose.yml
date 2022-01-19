@@ -45,6 +45,7 @@ services:
         - "5003:5003"
         - "5004:5004"
         - "5005:5005"
+        - "5006:5006"
         - "9600:9600"
     depends_on:
       - elasticsearch
@@ -57,26 +58,53 @@ services:
       ELASTICSEARCH_HOSTS: http://elasticsearch:9200
     depends_on:
       - elasticsearch
-  mysql:
-    image: mysql:latest
+  postgresql-master:
+    image: docker.io/bitnami/postgresql:11
     ports:
-      - "3308:3306"
+      - 5432:5432
+    volumes:
+      - 'postgresql_master_data:/bitnami/postgresql'
     environment:
-      MYSQL_ROOT_USER: root
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: flightServiceDB
-      MYSQL_USER: jane.garciu
-      MYSQL_PASSWORD: password
-  mysql2:
-      image: mysql:latest
+      - POSTGRESQL_REPLICATION_MODE=master
+      - POSTGRESQL_REPLICATION_USER=repl_user
+      - POSTGRESQL_REPLICATION_PASSWORD=repl_password
+      - POSTGRESQL_USERNAME=postgres
+      - POSTGRESQL_PASSWORD=my_password
+      - POSTGRESQL_DATABASE=my_database
+      - POSTGRESQL_SYNCHRONOUS_COMMIT_MODE=on
+      - POSTGRESQL_NUM_SYNCHRONOUS_REPLICAS=1
+  postgresql-slave:
+      image: docker.io/bitnami/postgresql:11
       ports:
-        - "3307:3306"
+        - 5433:5432
+      depends_on:
+        - postgresql-master
       environment:
-        MYSQL_ROOT_USER: root
-        MYSQL_ROOT_PASSWORD: password
-        MYSQL_DATABASE: ticketServiceDB
-        MYSQL_USER: jane.garciu
-        MYSQL_PASSWORD: password
+        - POSTGRESQL_REPLICATION_MODE=slave
+        - POSTGRESQL_REPLICATION_USER=repl_user
+        - POSTGRESQL_REPLICATION_PASSWORD=repl_password
+        - POSTGRESQL_MASTER_HOST=postgresql-master
+        - POSTGRESQL_PASSWORD=my_password
+        - POSTGRESQL_MASTER_PORT_NUMBER=5432
+        - ALLOW_EMPTY_PASSWORD=yes
+  postgresql:
+    image: docker.io/bitnami/postgresql:latest
+    environment:
+      - POSTGRES_DB=ticketServiceDB
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=password
+    ports:
+      - 5438:5432
+#  mysql2:
+#      image: mysql:latest
+#      ports:
+#        - "3307:3306"
+#      environment:
+#        MYSQL_ROOT_USER: root
+#        MYSQL_ROOT_PASSWORD: password
+#        MYSQL_DATABASE: ticketServiceDB
+#        MYSQL_USER: jane.garciu
+#        MYSQL_PASSWORD: password
   eureka-server:
     image: eureka-server:latest
     ports:
@@ -115,20 +143,32 @@ services:
     environment:
       - JAVA_OPTS=
         -DEUREKA_SERVER=http://eureka-server:8761/eureka
-    expose:
-      - 8202
+    ports:
+      - 8202:8202
+  cache-service2:
+    image: cache-service2:latest
+    restart: on-failure
+    depends_on:
+      - eureka-server
+      - gateway-server
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_SERVER=http://eureka-server:8761/eureka
+    ports:
+      - 8203:8203
   flight-service:
     image: flight-service:latest
     depends_on:
     - eureka-server
     - gateway-server
-    - mysql
+    - postgresql-master
     environment:
       - JAVA_OPTS=
-        -DEUREKA_SERVER=http://eureka-server:8761/eureka
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/flightServiceDB
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=password
+      - DEUREKA_SERVER=http://eureka-server:8761/eureka
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgresql-master:5432/my_database
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=my_password
+
     expose:
       - 8200
   ticket-service:
@@ -136,17 +176,19 @@ services:
     depends_on:
       - eureka-server
       - gateway-server
-      - mysql2
+      - postgresql
     environment:
       - JAVA_OPTS=
-        -DEUREKA_SERVER=http://eureka-server:8761/eureka
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql2:3306/ticketServiceDB
+      - DEUREKA_SERVER=http://eureka-server:8761/eureka
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgresql:5432/ticketServiceDB
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=password
     expose:
       - 8201
-networks:
-  elk:
-    driver: bridge
+#networks:
+#  elk:
+#    driver: bridge
 volumes:
   elasticsearch:
+  postgresql_master_data:
+    driver: local

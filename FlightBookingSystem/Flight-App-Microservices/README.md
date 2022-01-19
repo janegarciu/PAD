@@ -98,12 +98,6 @@ Will handle only inbound requests from Booking service:
 + GET `flight-booking-app/cache/get-all-flights` : the reason why we need to cache all flights because they don't change so often and it is frequently called.
   The cache will live one hour and will be refreshed after the first request in case of adding of new flights
 
-### Docker
-
---------
-
-At the moment there are two databases for Ticket service and Flight service. In order to start the docker container go to FlightBookingSystem/Flight-App-Microservices/common/flightApp-docker and in the terminal run docker compose up.
-
 ### List Of Technologies
 
 -------
@@ -113,8 +107,7 @@ At the moment there are two databases for Ticket service and Flight service. In 
 + Spring Cloud
 + Spring Data
 + Scala(cache microservice)
-+ DB - MySQL for each service except
-+ Netflix Eureka Client/Server
++ DB - Postgresql for flight service and ticket service
 + For cache service used EhCache
 
 ### Architecture Diagram

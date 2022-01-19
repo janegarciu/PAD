@@ -18,3 +18,5 @@ INSERT INTO flights
     (id, flight_number, id_departure, id_destination)
 VALUES (1, 'Abc123', 2, 1);
 
+
+

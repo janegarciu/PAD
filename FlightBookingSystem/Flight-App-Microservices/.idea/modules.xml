@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/authorisation-server/authorisation-server.iml" filepath="$PROJECT_DIR$/authorisation-server/authorisation-server.iml" />
       <module fileurl="file://$PROJECT_DIR$/cache-service/cache-service.iml" filepath="$PROJECT_DIR$/cache-service/cache-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cache-service2/cache-service2.iml" filepath="$PROJECT_DIR$/cache-service2/cache-service2.iml" />
       <module fileurl="file://$PROJECT_DIR$/common/common.iml" filepath="$PROJECT_DIR$/common/common.iml" />
       <module fileurl="file://$PROJECT_DIR$/eureka-server/eureka-server.iml" filepath="$PROJECT_DIR$/eureka-server/eureka-server.iml" />
       <module fileurl="file://$PROJECT_DIR$/flight-service/flight-service.iml" filepath="$PROJECT_DIR$/flight-service/flight-service.iml" />

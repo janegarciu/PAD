@@ -13,16 +13,18 @@ I would implement Elasticsearch logstash and kibana for logs registering for eac
 
 
 ###  2.Database redundancy/replication + failover
- For the ticket service I am going to implement a master-slave replication of Mysql database using Spring boot properties.
-to provide two identical databases for specified service. There is a link which I am going to use for the documentation of 
-replication implementation provided here: https://medium.com/swlh/a-complete-guide-to-setting-up-multiple-datasources-in-spring-8296d4ff0935
 
-![img.png](master-slave.png)
+ For the flight service I am going to implement a master-slave replication of Postgresql database.
+to provide two identical databases for specified service. Master will be set up to be able to read and write the information from the database.
+Slave is going to be set to read only. Data transferring between two on them will be synchronous.
 
-###  3.EhCache distributed cache using consistency hashing.
+![master-slave.png](master-slave.png)
 
-For Cache service I will implement distributed caching for flight service calls using caching policy introduced
-into cache service configuration file.
+
+###  3.EhCache RMI replicated cache.
+
+For Cache service I will implement replicated caching for flight service calls using ehcache configurations in ehcache.xml file.
+![rmi-replication.png](rmi-replication.png)
 
 ###  4. All the microservices are going to be runt from the docker container using docker compose file
 
